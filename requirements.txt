@@ -6,3 +6,4 @@ matplotlib
 plotly
 requests
 gunicorn
+beautifulsoup4
