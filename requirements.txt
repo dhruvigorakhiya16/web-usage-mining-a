@@ -1,9 +1,8 @@
 flask
-gunicorn
 pandas
-numpy
 scikit-learn
-matplotlib
 mlxtend
-seaborn
-#https://web-usage-mining-aiml.onrender.com
+matplotlib
+plotly
+requests
+gunicorn
