@@ -6,4 +6,4 @@ matplotlib
 plotly
 requests
 gunicorn
-beautifulsoup4
+bs4
