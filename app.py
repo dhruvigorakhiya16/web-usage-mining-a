@@ -6,6 +6,10 @@ from model import run_web_usage_mining, crawl_and_mine_url
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 
+# --- ADD THESE TWO LINES ---
+if not os.path.exists(app.config['UPLOAD_FOLDER']):
+    os.makedirs(app.config['UPLOAD_FOLDER'])
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     rules = pd.DataFrame()
@@ -58,4 +62,6 @@ def home():
     return render_template('index.html', data_processed=False)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
