@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebMiner AI | Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-blue: #1a237e;
+            --accent-blue: #3f51b5;
+            --light-bg: #f8f9fa;
+        }
+        body { background-color: var(--light-bg); font-family: 'Segoe UI', sans-serif; }
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-blue) 100%);
+            color: white;
+            padding: 40px 0;
+            margin-bottom: 30px;
+        }
+        .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .metric-value { font-size: 4rem; font-weight: 700; color: #3b82f6; }
+        .summary-box { border-left: 5px solid #3b82f6; }
+        .table-container { background: white; border-radius: 12px; padding: 20px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-section text-center">
+        <div class="container">
+            <h1 class="fw-bold">Web Usage Mining AI</h1>
+            <p class="lead opacity-75">Unsupervised Machine Learning for User Behavior Analysis</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="row g-4 mb-5">
+            <div class="col-md-6">
+                <div class="card p-4 h-100">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-globe"></i> Analyze Website URL</h5>
+                    <form method="POST">
+                        <div class="input-group">
+                            <input type="url" name="user_input" class="form-control" placeholder="https://example.com" required>
+                            <button class="btn btn-primary" type="submit">Mine URL</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card p-4 h-100">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-file-earmark-bar-graph"></i> Upload Clickstream CSV</h5>
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="input-group">
+                            <input type="file" name="log_file" class="form-control" required>
+                            <button class="btn btn-success" type="submit">Analyze Data</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        {% if data_processed %}
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card p-4 text-center h-100 d-flex flex-column justify-content-center">
+                    <h6 class="text-uppercase fw-bold text-muted small">Behavior Clarity Score</h6>
+                    <div class="metric-value">{{ silhouette }}</div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card p-3 h-100 text-center">
+                    <img src="{{ url_for('static', filename='cluster_chart.png') }}?v={{ range(1,999)|random }}" class="img-fluid rounded" alt="User Clusters">
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="table-container shadow-sm">
+                    <h5 class="fw-bold mb-3">Top Navigation Patterns</h5>
+                    <div class="table-responsive">
+                        {{ rules | safe }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mt-4 mb-5">
+                <div class="card summary-box p-4 shadow-sm bg-white">
+                    <h4 class="fw-bold text-primary mb-4">How the AI sees your data:</h4>
+
+                    <div class="row">
+                        <div class="col-md-6 border-end">
+                            <h6 class="fw-bold">1. Grouping Discovery</h6>
+                            <p class="text-muted small">
+                                The AI looked at thousands of clicks and found distinct patterns.
+                                With a score of <strong>{{ silhouette }}</strong>, {{ group_text }}
+                            </p>
+                        </div>
+
+                        <div class="col-md-6 ps-4">
+                            <h6 class="fw-bold">2. Prediction Intelligence</h6>
+                            <p class="text-muted small">
+                                {{ pattern_text }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </main>
+
+    <footer class="text-center py-4 text-muted border-top bg-white">
+        <p class="mb-0">&copy; 2026 WebMiner AI. Powered by FP-Growth & K-Means.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
